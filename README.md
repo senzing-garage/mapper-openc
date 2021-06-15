@@ -2,7 +2,7 @@
 
 ## Overview
 
-The the Open Corporates mapper python scripts convert the Open Corporates company and officers located
+The Open Corporates mapper python scripts convert the Open Corporates company and officers located
 [here](https://opencorporates.com/info/our-data//).  While you can search individual companies for free, you will need to purchase 
 the regions you desire for loading into Senzing. You can purchase and download files of companies, their officers, and their additional 
 (non-registered) addresses.
@@ -60,7 +60,7 @@ the second time through they will all say "already exists" which is OK.
 help:
 
 ```console
-python openc-companies.py --help
+python3 openc-companies.py --help
 usage: openc-companies.py [-h] [-i INPUT_FILE_SET] [-o OUTPUT_FILE_DIR] [-d DATA_SOURCE] [-l LOG_FILE]
 
 optional arguments:
@@ -78,7 +78,7 @@ optional arguments:
 
 Typical use: 
 ```console
-python openc-companies.py -i ./openc-files.json -o ./output/ -l output/companies-log.json
+python3 openc-companies.py -i ./openc-files.json -o ./output/ -l output/companies-log.json
 ```
 
 - The input file set should always be the openc-files.json that contains the file locations of the files you downloaded.
@@ -96,7 +96,7 @@ you must have write privileges and enought disk space to load them.*
 help:
 
 ```console
-python openc-officers.py --help
+python3 openc-officers.py --help
 usage: openc-officers.py [-h] [-i INPUT_FILE_SET] [-o OUTPUT_FILE_DIR] [-d DATA_SOURCE] [-l LOG_FILE]
 
 optional arguments:
@@ -113,7 +113,7 @@ optional arguments:
 
 Typical use: 
 ```console
-python openc-officers.py -i ./openc-files.json -o ./output/ -l output/officers-log.json
+python3 openc-officers.py -i ./openc-files.json -o ./output/ -l output/officers-log.json
 ```
 
 - The input file set should always be the openc-files.json that contains the file locations of the files you downloaded.
