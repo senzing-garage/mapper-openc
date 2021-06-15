@@ -1,0 +1,9 @@
+addDataSource OPENC-COMPANY
+addDataSource OPENC-OFFICER
+
+templateAdd {"feature": "OC_COMPANY_ID", "template": "global_id", "behavior": "F1E", "comparison": "exact_comp"}
+templateAdd {"feature": "OC_OFFICER_NUMBER", "template": "global_id", "behavior": "F1", "comparison": "exact_comp"}
+templateAdd {"feature": "OC_OFFICER_UID", "template": "global_id", "behavior": "F1", "comparison": "exact_comp"}
+
+save
+exit

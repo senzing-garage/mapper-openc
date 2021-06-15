@@ -1,0 +1,9 @@
+{
+    "file_list":[
+        {"file_type": "company", "file_path": "./input/companies-aa.csv"},
+        {"file_type": "company", "file_path": "./input/companies-ab.csv"},
+        {"file_type": "address", "file_path": "./input/non_reg_addresses.csv"},
+        {"file_type": "officer", "file_path": "./input/officers-aa.csv"},
+        {"file_type": "officer", "file_path": "./input/officers-ab.csv"}
+    ]
+}
