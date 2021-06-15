@@ -35,7 +35,7 @@ Place the the following files on a directory of your choice ...
 - [openc-files.json](openc-files.json)
 - [openc-companies.py](openc-companies.py)
 - [openc-officers.py](openc-officers.py)
-- [openc-config-updates.g2c](open-config-updates.g2c)
+- [openc-config-updates.g2c](openc-config-updates.g2c)
 
 *You will need to update the [openc-files.json](openc-files.json) with the list and location of the files you downloaded from 
 the Open Corporates website.  If the companies, officers or addresses files have been split, make sure you list them all under the associated file type as shown in the 
