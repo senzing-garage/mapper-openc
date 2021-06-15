@@ -8,11 +8,11 @@ the regions you desire for loading into Senzing. You can purchase and download f
 (non-registered) addresses.
 
 There are two python scripts in this project ...
-- The [openc_companies.py](openc_companies.py) script maps the companies with their additional addresses if present. 
-- The [openc_officers.py](openc_officers.py) script just maps the officers and relates them to their company.
+- The [openc-companies.py](openc-companies.py) script maps the companies with their additional addresses if present. 
+- The [openc-officers.py](openc-officers.py) script just maps the officers and relates them to their company.
 
 Loading this data into Senzing requires additional features and configurations. These are contained in the
-[openc_config_updates.g2c](openc_config_updates.g2c) file.
+[openc-config-updates.g2c](openc-config-updates.g2c) file.
 
 ## Contents
 
@@ -32,12 +32,12 @@ Loading this data into Senzing requires additional features and configurations. 
 
 Place the the following files on a directory of your choice ...
 
-- [openc_files.json](openc_files.json)
-- [openc_companies.py](openc_companies.py)
-- [openc_officers.py](openc_officers.py)
-- [openc_config_updates.g2c](open_config_updates.g2c)
+- [openc-files.json](openc-files.json)
+- [openc-companies.py](openc-companies.py)
+- [openc-officers.py](openc-officers.py)
+- [openc-config-updates.g2c](open-config-updates.g2c)
 
-*You will need to update the [openc_files.json](openc_files.json) with the list and location of the files you downloaded from 
+*You will need to update the [openc-files.json](openc-files.json) with the list and location of the files you downloaded from 
 the Open Corporates website.  If the companies, officers or addresses files have been split, make sure you list them all under the associated file type as shown in the 
 sample file included in this project.*
 
@@ -78,7 +78,7 @@ optional arguments:
 
 Typical use: 
 ```console
-python openc-companies.py -i openc-files.json -o output -l output/companies-log.json
+python openc-companies.py -i ./openc-files.json -o ./output/ -l output/companies-log.json
 ```
 
 - The input file set should always be the openc-files.json that contains the file locations of the files you downloaded.
@@ -90,5 +90,36 @@ registered in the input file set.
 *Please note that if you have downloaded the additional addresses file, the companies mapper will load them into into an sqlite database 
 so they can be looked up and mapped for each company that has them. The sqlite database is created on the current working directory, so 
 you must have write privileges and enought disk space to load them.*
+
+### Running the officers mapper
+
+help:
+
+```console
+python openc-officers.py --help
+usage: openc-officers.py [-h] [-i INPUT_FILE_SET] [-o OUTPUT_FILE_DIR] [-d DATA_SOURCE] [-l LOG_FILE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT_FILE_SET, --input_file_set INPUT_FILE_SET
+                        the name of the json file containing the list of open corporates csv files
+  -o OUTPUT_FILE_DIR, --output_file_dir OUTPUT_FILE_DIR
+                        the name of the output file directory
+  -d DATA_SOURCE, --data_source DATA_SOURCE
+                        the name of the data source code to use, defaults to: OPENC-OFFICER
+  -l LOG_FILE, --log_file LOG_FILE
+                        optional name of the statistics log file
+```
+
+Typical use: 
+```console
+python openc-officers.py -i ./openc-files.json -o ./output/ -l output/officers-log.json
+```
+
+- The input file set should always be the openc-files.json that contains the file locations of the files you downloaded.
+- The output file directory must be a directory, not a file.  There will be one json file output named after each officer csv file
+registered in the input file set.
+- The log file is optional but gives you the statistics and examples of each attribute that was mapped.
+- You can use the -d parameter to change the data source code the mapper assigns if you would rather use something other than the default.
 
 
