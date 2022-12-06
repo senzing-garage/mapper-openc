@@ -10,7 +10,7 @@ import multiprocessing
 import concurrent.futures
 import argparse
 
-def make_database(dbname, child_fil_types):
+def make_database(dbname, child_file_types):
     child_dbo = sqlite3.connect(dbname, isolation_level=None, timeout=20)
 
     if 'address' in child_file_types:
