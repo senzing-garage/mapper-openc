@@ -96,10 +96,30 @@ def import_file(dbname, filedata, record_chunk_size):
         timer_start = time.time()
         chunk.to_sql(filetype, child_dbo, index=False, method='multi', chunksize=1000, if_exists='append')
         cnt += len(chunk)
-        print(f"{filename}: {cnt:,} records loaded, last chunk took {round((time.time() - timer_start) / 60, 1)} minutes")
+        print(f"{filename}: {cnt:,} records loaded, last chunk took {round(time.time() - timer_start, 1)} seconds")
 
     child_dbo.close()
     return f"{filename} completed!"
+
+def import_file2(child_dbo, filedata, record_chunk_size):
+    filetype = filedata[0]
+    filename = filedata[1]
+    print(f"{filename}: started")
+
+    if os.path.splitext(filename)[1].upper() == '.GZ':
+        file_compression = 'gzip'
+    else:
+        file_compression = None
+
+    cnt = 0
+    for chunk in pandas.read_csv(filename, chunksize=record_chunk_size, encoding='utf-8', dtype = str, compression=file_compression):
+        timer_start = time.time()
+        chunk.to_sql(filetype, child_dbo, index=False, method='multi', chunksize=1000, if_exists='append')
+        cnt += len(chunk)
+        print(f"{filename}: {cnt:,} records loaded, last chunk took {round(time.time() - timer_start, 1)} seconds")
+
+    return f"{filename} completed!"
+
 
 def index_database(dbname, filetype):
     print(f"indexing {filetype} ...")
@@ -109,13 +129,23 @@ def index_database(dbname, filetype):
     child_dbo.cursor().execute("PRAGMA synchronous=0")
     child_dbo.cursor().execute(f'create index ix_{filetype} on {filetype} (company_number, jurisdiction_code)')
     child_dbo.close()
-    print(f"indexing {filetype} completed in {round((time.time() - timer_start) / 60, 1)} minutes")
+    print(f"indexing {filetype} completed in {round(time.time() - timer_start, 1)} seconds")
+    return f"{filetype} indexing complete"
+
+def index_database2(child_dbo, filetype):
+    print(f"indexing {filetype} ...")
+    timer_start = time.time()
+    child_dbo.cursor().execute(f'create index ix_{filetype} on {filetype} (company_number, jurisdiction_code)')
+    print(f"indexing {filetype} completed in {round(time.time() - timer_start, 1)} seconds")
     return f"{filetype} indexing complete"
 
 def complete_database(dbname):
     child_dbo = sqlite3.connect(dbname, isolation_level=None, timeout=20)
     child_dbo.cursor().execute('create table finished (dummy integer)')
     child_dbo.close()
+
+def complete_database2(child_dbo):
+    child_dbo.cursor().execute('create table finished (dummy integer)')
 
 if __name__ == "__main__":
 
@@ -165,32 +195,53 @@ if __name__ == "__main__":
         #sys.exit(1)
     make_database(args.child_database_name, child_file_types)
 
+    single_threaded = True
+
+
     proc_start = time.time()
 
     print(f"\n{len(child_files)} files to load\n")
 
     # load
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        futures = {
-            executor.submit(import_file, args.child_database_name, filedata, record_chunk_size):
-            filedata for filedata in child_files
-        }
-        while futures:
-            done, futures = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
-            for fut in done:
-                print(fut.result())
+    if single_threaded:
+        child_dbo = sqlite3.connect(args.child_database_name)
+        child_dbo_cursor = child_dbo.cursor()
+        child_dbo_cursor.execute('pragma synchronous = 0')
+        child_dbo_cursor.execute('pragma cache_size = -16000000')
+        child_dbo_cursor.execute('pragma secure_delete = 0')
+        child_dbo_cursor.execute('pragma page_size = 65536')
+        child_dbo_cursor.execute('pragma journal_mode = off')
+        child_dbo_cursor.execute('pragma temp_store = MEMORY')
+        child_dbo_cursor.execute('pragma locking_mode = EXCLUSIVE')
+        child_dbo_cursor.execute('pragma isolation_level = None')
+        for filedata in child_files:
+            import_file2(child_dbo, filedata, record_chunk_size)
+        for filetype in child_file_types:
+            index_database2(child_dbo, filetype)
+        complete_database2(child_dbo)
 
-    # index
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        futures = {
-            executor.submit(index_database, args.child_database_name, filetype):
-            filetype for filetype in child_file_types
-        }
-        while futures:
-            done, futures = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
-            for fut in done:
-                print(fut.result())
+    else:
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            futures = {
+                executor.submit(import_file, args.child_database_name, filedata, record_chunk_size):
+                filedata for filedata in child_files
+            }
+            while futures:
+                done, futures = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
+                for fut in done:
+                    print(fut.result())
 
-    complete_database(args.child_database_name)
+        # index
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            futures = {
+                executor.submit(index_database, args.child_database_name, filetype):
+                filetype for filetype in child_file_types
+            }
+            while futures:
+                done, futures = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
+                for fut in done:
+                    print(fut.result())
+
+        complete_database(args.child_database_name)
 
     print(f"\nProcess completed in {round((time.time() - proc_start) / 60, 1)} minutes\n")
