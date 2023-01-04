@@ -5,5 +5,8 @@ templateAdd {"feature": "OC_COMPANY_ID", "template": "global_id", "behavior": "F
 templateAdd {"feature": "OC_OFFICER_NUMBER", "template": "global_id", "behavior": "F1", "comparison": "exact_comp"}
 templateAdd {"feature": "OC_OFFICER_UID", "template": "global_id", "behavior": "F1", "comparison": "exact_comp"}
 
+addAttribute {"attribute": "REL_POINTER_FROM_DATE", "class": "RELATIONSHIP", "feature": "REL_POINTER", "element": "USED_FROM_DT", "required": "No", "advanced": "Yes", "internal": "No"}
+addAttribute {"attribute": "REL_POINTER_THRU_DATE", "class": "RELATIONSHIP", "feature": "REL_POINTER", "element": "USED_FROM_DT", "required": "No", "advanced": "Yes", "internal": "No"}
+
 save
 exit
