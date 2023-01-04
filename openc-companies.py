@@ -939,7 +939,7 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--child_database_name', dest='child_database_name', help='the name of the child database created in the prior step')
     parser.add_argument('-d', '--data_source', dest='data_source', default=data_source, help='the name of the data source code to use, defaults to: ' + data_source)
     parser.add_argument('-l', '--log_file', dest='log_file', help='optional name of the statistics log file')
-    parser.add_argument('-w', '--max_workers', type=int, help='defaults to system processors, may need to reduce if running other things at same time')
+    parser.add_argument('-w', '--max_workers', type=int, help='defaults to the number of system processors, may need to reduce if running other things at same time')
     parser.add_argument('-D', '--log_duplicates', dest='log_duplicates', action='store_true', default=False, help='perform duplicate analysis')
     args = parser.parse_args()
 
