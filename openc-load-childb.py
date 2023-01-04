@@ -6,7 +6,6 @@ import glob
 import sqlite3
 import pandas
 import time
-import multiprocessing
 import argparse
 
 def make_database(dbname, child_file_types):

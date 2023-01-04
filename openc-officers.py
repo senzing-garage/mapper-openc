@@ -596,11 +596,11 @@ if __name__ == "__main__":
             new_json_data['RECORD_ID'] = record_hash
             new_json_data['RECORD_COUNT'] = len(record_list)
             if new_json_data['RECORD_COUNT'] > 10000:
-                mapper.update_stat('_FYI', f"RECORD_HASH>10000", f"{new_json_data['RECORD_ID']}={new_json_data['RECORD_COUNT']}")
+                mapper.update_stat('_FYI', "RECORD_HASH>10000", f"{new_json_data['RECORD_ID']}={new_json_data['RECORD_COUNT']}")
             elif new_json_data['RECORD_COUNT'] > 1000:
-                mapper.update_stat('_FYI', f"RECORD_HASH>1000", f"{new_json_data['RECORD_ID']}={new_json_data['RECORD_COUNT']}")
+                mapper.update_stat('_FYI', "RECORD_HASH>1000", f"{new_json_data['RECORD_ID']}={new_json_data['RECORD_COUNT']}")
             elif new_json_data['RECORD_COUNT'] > 100:
-                mapper.update_stat('_FYI', f"RECORD_HASH>100", f"{new_json_data['RECORD_ID']}={new_json_data['RECORD_COUNT']}")
+                mapper.update_stat('_FYI', "RECORD_HASH>100", f"{new_json_data['RECORD_ID']}={new_json_data['RECORD_COUNT']}")
             if new_json_data['RECORD_COUNT'] < 4:
                 new_json_data['RECORD_IDS'] = ' | '.join(record_list)
             else:

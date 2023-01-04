@@ -92,7 +92,7 @@ Typical use:
 python3 openc-load-childb.py -i ./input -c ./input/child.db
 ```
 
-- The -i should be the directory is where you downloaded the Open Corporates data files.
+- The -i should be the directory where you downloaded the Open Corporates data files.
 - The -c should be where you want the sqlite child database to be written.  Ideally, you would place it on the same directory.
 
 
@@ -131,7 +131,6 @@ python3 openc-companies.py -i ./input/companies.csv.gz -c ./input/child.db -o ./
 
 ### Running the officers mapper
 
-DO NOT PERFORM THIS STEP YET!
 ```console
 python3 openc-officers.py --help
 usage: openc-officers.py [-h] [-i INPUT_FILE_SET] [-o OUTPUT_FILE_DIR] [-d DATA_SOURCE] [-l LOG_FILE]
@@ -155,7 +154,7 @@ Typical use:
 python3 openc-officers.py -i ./input/officers.csv.gz -o ./output/officers.json -t ./input/temp.db -l output/officers-log.json
 ```
 
-- The -i is location of the Open Corporates officers data file.
+- The -i is the location of the Open Corporates officers data file.
 - The -o is where you want the mapped file to be written.
 - The -t is for the temporary sqlite database used to de-dupe officers.
 - The -l is an optional log file that contains mapping stats for your review.

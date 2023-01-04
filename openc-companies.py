@@ -6,8 +6,6 @@ import argparse
 import time
 import csv
 import orjson
-import time
-from datetime import datetime
 from dateutil.parser import parse as dateparse
 import signal
 import random
@@ -795,7 +793,6 @@ class mapper():
 
         # website child table
         if 'website' in self.child_table_list:
-            website_list = []
             sql = 'select * from website where company_number = ? and jurisdiction_code = ?'
             for record in sql_fetch_all(sql_exec(self.dbo, sql, [raw_data['company_number'], raw_data['jurisdiction_code']])):
                 if not record['URL']:
