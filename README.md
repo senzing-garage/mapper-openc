@@ -152,7 +152,7 @@ optional arguments:
 
 Typical use: 
 ```console
-python3 openc-officers.py -i ./input/officers.csv.gz -o ./output/officers.json -t /input/temp.db -l output/officers-log.json
+python3 openc-officers.py -i ./input/officers.csv.gz -o ./output/officers.json -t ./input/temp.db -l output/officers-log.json
 ```
 
 - The -i is location of the Open Corporates officers data file.
