@@ -1,5 +1,11 @@
 # mapper-openc
 
+## :no_entry: Deprecated
+
+This repository is not currently supported.
+
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 ## Overview
 
 The Open Corporates mapper python scripts convert the Open Corporates company and officers located
